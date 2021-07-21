@@ -12,7 +12,7 @@ function Event(props) {
                 'Content-Type':'application/json'
             }
         };
-            
+               
         fetch(url, options)
             .then((response) => response.text().then((eventObj) => {
                 var obj = JSON.parse(eventObj);       
@@ -22,8 +22,7 @@ function Event(props) {
             .catch(err => console.log(err))
 
     }, [id]);
-
-   console.log(event);
+    
     return (
             <div className="event">
                 <div id="name">{event.name}</div>
@@ -37,7 +36,6 @@ function Event(props) {
                 <div id="cost">{event.cost}</div>
                 <div id="location lat">{event.latitude}</div>
                 <div id="location long">{event.longitude}</div>
-                <div id="location name">{event.location.city}</div>
             </div>
     )
 }
