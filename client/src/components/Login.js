@@ -12,7 +12,7 @@ export default class Login extends Component {
         return (
             <form className="mainForm">
                 <h3>Sign In</h3>
-                <a href="/Map">map</a>
+                <a href="/EventPage">eventPage</a>
 
                 <div className="form-group">
                     <label>Email address</label>
