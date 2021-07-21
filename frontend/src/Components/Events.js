@@ -23,14 +23,8 @@ function Events(props) {
                         arr.push(obj[i]);
                     setEvents(arr);
                 }))
-                // .then((response) => response.json())
-                // .then((response) => response.text())
-                // .then(body => console.log(body))
                 .catch(err => console.log(err))
 
-            // var body = await response.json().events;
-            // if (response.status !== 200) throw Error(body.message);
-            // setEvents(await body);
 }, [location]);
 
    
