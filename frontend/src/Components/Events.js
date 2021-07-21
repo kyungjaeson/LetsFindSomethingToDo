@@ -1,3 +1,4 @@
+import { INSPECT_MAX_BYTES } from 'buffer';
 import React, { useState, useEffect } from 'react';
 
 
@@ -13,22 +14,52 @@ function Events(props) {
                 'Content-Type':'application/json'
             }
         };
-
+            
             fetch(url, options)
-                // .then((response) => response.body)
+                .then((response) => response.text().then((eventObj) => {
+                    var obj = JSON.parse(eventObj);
+                    var arr = [];
+                    for (var i in obj) 
+                        arr.push(obj[i]);
+                    setEvents(arr);
+                }))
+                // .then((response) => response.json())
                 // .then((response) => response.text())
-                .then((text) => text.body.getReader())
-                .then(body => console.log(body))
+                // .then(body => console.log(body))
                 .catch(err => console.log(err))
 
             // var body = await response.json().events;
             // if (response.status !== 200) throw Error(body.message);
             // setEvents(await body);
-    }, [location]);
+}, [location]);
 
+    const getEvent = () => {
+
+        events.forEach((event) => {
+            return (
+                <div className="event">
+                    <div id="name">event.name</div>
+                    <div id="date">event.time_start</div>
+                    <div id="location lat">event.latitude</div>
+                    <div id="location long">event.longitude</div>
+                    <div id="location name">event.location.display_address</div>
+                </div>
+            )
+        })
+    }
+
+    
     return (
-        <div>
-            {events}
+        <div className="events">
+            {events.map((event) => (
+                <div className="event">
+                    <div id="name">{event.name}</div>
+                    <div id="date">{event.time_start}</div>
+                    <div id="location lat">{event.latitude}</div>
+                    <div id="location long">{event.longitude}</div>
+                    <div id="location name">{event.location.display_address}</div>
+                </div>
+            ))}
         </div>
     )
 }
