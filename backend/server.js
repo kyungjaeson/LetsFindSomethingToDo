@@ -5,7 +5,6 @@ const axios = require('axios').default;
 const app = express();
 const port = 5000;
 
-console.log(YAPI_KEY);
 
 app.get('/events', async (req, res) => {
     res.contentType('application/json');
