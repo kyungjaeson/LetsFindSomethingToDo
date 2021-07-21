@@ -1,4 +1,3 @@
-import { INSPECT_MAX_BYTES } from 'buffer';
 import React, { useState, useEffect } from 'react';
 
 
@@ -33,6 +32,8 @@ function Events(props) {
             {events.map((event) => (
                 <div className="event">
                     <div id="name">{event.name}</div>
+                    <div id="id">{event.id}</div>
+                    <div id="url">{event.event_site_url}</div>
                     <div id="date">{event.time_start}</div>
                     <div id="location lat">{event.latitude}</div>
                     <div id="location long">{event.longitude}</div>

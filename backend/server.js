@@ -5,29 +5,19 @@ const app = express();
 const port = 5000;
 
 app.get('/events', async (req, res) => {
-    try {
-        res.contentType('application/json');
-        res.status(200);
-        // res.set({
-        //     "Access-Control-Allow-Origin":"*",
-        // });
-        var {data} = await getEvents(req.query.location);
-        console.log(data);
-        res.send(data.events);
-    } catch (e) {
-        res.status(500).json(e);
-    }
-})
-
-app.get('/eventDetail', (req, res) => {
     res.contentType('application/json');
     res.status(200);
-    var datadump = getEvent(req.query.id);
-    setTimeout(() => {
-        console.log(datadump.events);
-        return res.send(datadump.events);
-    }, 20000);
+    var {data} = await getEvents(req.query.location);
+    console.log(data);
+    res.send(data.events);
 })
+
+app.get('/eventDetail', async (req, res) => {
+    //res.contentType('application/json');
+    res.status(200);
+    var {data} = await getEvent(req.query.id);
+    res.send(data);
+});
 
 function getEvents(location) {
     const url = 'https://api.yelp.com/v3/events?limit=50&location=' + location;
@@ -39,16 +29,11 @@ function getEvents(location) {
 
 function getEvent(id) {
     const url = 'https://api.yelp.com/v3/events/' + id;
+    console.log(url);
 
-    const response = axios.get(url, {headers: {
-        "Authorization": `Bearer ${YAPI_KEY}`
-    }})
-    .then((response) => {
-        return(response.data);
-    }).catch( (e) => {
-        // console.log(e)
-        // console.log("URL IS: " + url);
-    });
+        return axios.get(url, {headers: {
+            "Authorization": `Bearer ${YAPI_KEY}`
+        }});
 }
 
 app.listen(port, () => {

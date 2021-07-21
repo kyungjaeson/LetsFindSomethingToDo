@@ -1,10 +1,11 @@
 import React from 'react';
-import Events from './Components/Events';
+// import Events from './Components/Events';
+import Event from './Components/Event';
 
 function App() {
   return (
     <div className="App">
-      <Events location="Houston+TX" />
+      <Event id="houston-yelp-burger-binge-week" />
     </div>
   );
 }
