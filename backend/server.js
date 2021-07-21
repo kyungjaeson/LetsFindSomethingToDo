@@ -6,6 +6,7 @@ const port = 5000;
 
 
 app.get('/events', async (req, res) => {
+    console.log("hello world ")
     try {
         res.contentType('application/json');
         res.status(200);
