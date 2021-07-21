@@ -33,22 +33,7 @@ function Events(props) {
             // setEvents(await body);
 }, [location]);
 
-    const getEvent = () => {
-
-        events.forEach((event) => {
-            return (
-                <div className="event">
-                    <div id="name">event.name</div>
-                    <div id="date">event.time_start</div>
-                    <div id="location lat">event.latitude</div>
-                    <div id="location long">event.longitude</div>
-                    <div id="location name">event.location.display_address</div>
-                </div>
-            )
-        })
-    }
-
-    
+   
     return (
         <div className="events">
             {events.map((event) => (
