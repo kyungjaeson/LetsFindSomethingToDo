@@ -1,64 +1,125 @@
-import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
+import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import React from "react";
 import googleMapStyles from "../assets/GoogleMapsStyle";
 import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
-import Events from "./Events";
+import { MDBPopover, MDBPopoverBody, MDBPopoverHeader, MDBTooltip } from 'mdb-react-ui-kit';
 
 
+// const map = document.getElementById("map");
+// const contentString =
+// '<div id="content">' +
+// '<div id="siteNotice">' +
+// "</div>" +
+// '<h1 id="firstHeading" class="firstHeading">Uluru</h1>' +
+// '<div id="bodyContent">' +
+// "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+// "sandstone rock formation in the southern part of the " +
+// "Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) " +
+// "south west of the nearest large town, Alice Springs; 450&#160;km " +
+// "(280&#160;mi) by road. Kata Tjuta and Uluru are the two major " +
+// "features of the Uluru - Kata Tjuta National Park. Uluru is " +
+// "sacred to the Pitjantjatjara and Yankunytjatjara, the " +
+// "Aboriginal people of the area. It has many springs, waterholes, " +
+// "rock caves and ancient paintings. Uluru is listed as a World " +
+// "Heritage Site.</p>" +
+// '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+// "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+// "(last visited June 22, 2009).</p>" +
+// "</div>" +
+// "</div>";
+// const infowindow = InfoWindow({
+//   content: contentString,
+// });
 
 export class Maps extends React.Component {
   
   constructor(props) {
-   
     super(props);
     this.state = {
-      latA: [47.6740,47.9790],
-      lngA: [-122.1215,-122.2021]
+      events : []
+     
     };
   }
 
-  render() {
-    let latA = [47.6740,47.9790];
-    let lngA = [-122.1215,-122.2021];
-    let myid = document.getElementById('id')
-    let latitude = document.getElementById('lat')
-    // console.log(latitude)
-    console.log(this.props.lat)
-    return this.props[0].map((index, val) => (
-      <section >
-        <h1>{this.props.latArr}</h1>
-        <div
-          style={{
-            height: "420px",
-            marginBottom: "80px",
-            position: "relative",
-            overflow: "hidden",
-          }}
-          key={val}
-        >
-          {/* <h1>hello {this.props.lat}</h1> */}
-          <h2> {index.Name}</h2>
-         
-          <Map
-            google={this.props.google}
-            zoom={15}
-            styles={index.Style}
-            initialCenter={{ lat: 47.6062, lng: -122.3321 }}
-          >
-            
-            {latA.map((item,index)=>{
-              // console.log(this.state.lngArr)
-              return <Marker position={{lat: this.state.latA[index],lng: this.state.lngA[index]}} />
-            })
+    // addListener(){
+    // infowindow.open({
+    //   anchor: Marker,
+    //   map,
+    //   shouldFocus: false,
+    // })}
 
-            }
+  getEvents(params) {
+    const {location} = this.props;
+
+    var url = '/events?location=' + location;
+    var options = {
+        method: "GET",
+        headers: {
+            'Accept':'application/json',
+            'Content-Type':'application/json'
+        }
+        
+    };
+
+    fetch(url, options)
+    .then((response) => response.text().then((eventObj) => {
+        var obj = JSON.parse(eventObj);
+        var events = [];
+        for (var i in obj) 
+            events.push(obj[i]);
+        this.setState({events});
+    }))
+    .catch(err => console.log(err))
+  }
+
+  componentDidMount(){
+    this.getEvents()
+  }
+
+
+
+
+  render() {
+    // let latArr = [47.6740,47.9790];
+    // let lngArr = [-122.1215,-122.2021];
+    return this.props[0].map((index, val) => (
+      
+      <div
+        style={{
+          height: "420px",
+          marginBottom: "80px",
+          position: "relative",
+          overflow: "hidden",
+        }}
+        key={val}
+      >
+        <h1>{index.Name}</h1>
+        <Map
+     
+          google={this.props.google}
+          zoom={15}
+          styles={index.Style}
+          initialCenter={{ lat: 29.7604, lng: -95.3698 }}
+        >
           
-          
-          </Map>
-          
-        </div>
-        <Events location="Houston+TX"  />
-      </section>
+          {this.state.events.map((event,index)=>{
+            // console.log(this.state.lngArr)
+            
+         
+            return(
+        
+                <Marker class="tooltip" position={{lat: event.latitude,lng: event.longitude}} />
+      
+                )
+
+          })
+
+          }
+        
+        
+        </Map>
+        
+      </div>
     ));
   }
 }

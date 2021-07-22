@@ -1,15 +1,22 @@
 import React from 'react'
 import Maps from '../components/Maps'
-import Events from '../components/Events'
+
+
+
+
 function EventPage() {
+
     return (
+
         <div>
              
-             <Maps />
-           
+            <Maps location="Houston+TX"/>
             
+      
         </div>
     )
 }
+
+
 
 export default EventPage
