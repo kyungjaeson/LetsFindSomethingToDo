@@ -41,3 +41,52 @@
   margin-left: 38%;
   margin-top: 14%;
 }
+
+.events {
+  width: 500px;
+  margin: 50px;
+  float: right;
+  top: 0px;
+  right: 0;
+}
+
+.event {
+  margin: 10px;
+  text-align: left;
+}
+#name {
+  font-weight: bold;
+}
+
+div#lat {
+  display: none;
+}
+
+div#long {
+  display: none;
+}
+
+div#id {
+  display: none;
+}
+
+#event-name {
+  background-color: lightgoldenrodyellow;
+  font-size: 15pt;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid darkgray;
+}
+ 
+#event.cost {
+  border: 1px groove black;
+}
+
+#event-url {
+  color: green;
+  text-decoration: none;
+}
+
+.container {
+  border: 1px solid black;
+}
