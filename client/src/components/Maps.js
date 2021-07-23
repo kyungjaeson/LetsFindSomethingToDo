@@ -19,9 +19,9 @@ export class Maps extends React.Component {
           google={this.props.google}
           zoom={15}
           styles={index.Style}
-          initialCenter={{ lat: 9.761927, lng: 79.95244 }}
+          initialCenter={{ lat: 39.1979, lng: -76.7625}}
         >
-          <Marker position={{ lat: 9.761927, lng: 79.95244 }} />
+          <Marker position={{ lat: 39.1979, lng: -76.7625 }} />
         </Map>
       </div>
     ));

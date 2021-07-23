@@ -1,23 +1,94 @@
+const express = require("express")
 const router = require("express").Router();
 const User = require("../models/User")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
+const keys = require("../config/keys")
 
-router.post("/register", async (req, res) =>{
-    try{
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt)
-        
+const validateRegisterInput = require("../validation/RegisterValidation")
+const validateLoginInput = require("../validation/LoginValidation")
+
+
+router.post("/register", (req, res) =>{
+    res.set({
+        "Access-Control-Allow_Origin":"*",
+    })
+    const { errors, isValid } = validateRegisterInput(req.body);
+    console.log(req.body)
+    // Check validation
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+    User.findOne({ email: req.body.email }).then(user => {
+        if (user) {
+        return res.status(400).json({ email: "Email already exists" });
+        } else {
         const newUser = new User({
-            username: req.body.username,
-            email:req.body.email,
-            password:hashedPassword,
-        })
-        const user = await newUser.save()
-        res.status(200).json(user.username)
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password
+        });
+// Hash password before saving in database
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) throw err;
+          newUser.password = hash;
+          console.log(newUser.password)
+          newUser
+            .save()
+            .then(user => res.json(user))
+            .catch(err => console.log(err))
+        });
+      });
     }
-    catch(error){
-        res.status(500).json(error)
-    }
+  });
 })
 
+router.post("/login", (req, res) =>{
+    const { errors, isValid } = validateLoginInput(req.body);
+// Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+  console
+    const email = req.body.email;
+     const password = req.body.password;
+// Find user by email
+  User.findOne({ email }).then(user => {
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({ emailnotfound: "Email not found" });
+    }
+// Check password
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (isMatch) {
+        // User matched
+        // Create JWT Payload
+        const payload = {
+          id: user.id,
+          name: user.name
+        };
+// Sign token
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          {
+            expiresIn: 31556926 // 1 year in seconds
+          },
+          (err, token) => {
+            res.json({
+              success: true,
+              token: "Bearer " + token
+            });
+          }
+        );
+      } else {
+        return res
+          .status(400)
+          .json({ passwordincorrect: "Password incorrect" });
+      }
+    });
+  });
+});
 module.exports= router;
