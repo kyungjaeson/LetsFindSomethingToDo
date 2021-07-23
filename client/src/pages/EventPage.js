@@ -5,7 +5,7 @@ function EventPage() {
     return (
         <div>
              
-             <Maps />
+             <Maps latitude="47.6740" longitude="-122.1215" />
            
             
         </div>

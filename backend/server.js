@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios').default;
-const YAPI_KEY = "tHikPzTbuhEAlvjVF3Lr6HRtkH266HKypSFSZZ-bMAQHm4Gkygotedm7VE2bvzUf62F-Vq9G2LukuA88n842p1VQ9sfYTrxSsN-52IwxMGoyv7mc_pcrFZRObMn1YHYx";
+const YAPI_KEY = "fxB2GctcZSaLNIRXngvyPeNun2xSzh-VK6f9LAgMw1ZUQCN4WSig-w9_YMj5f2_ku3TveQLK7-DLiIlSCeSC_3G75E46O3nb8oVt8nvNmM2LJ0_sd_3t6mu11HD6YHYx";
 const app = express();
 const port = 5000;
 
